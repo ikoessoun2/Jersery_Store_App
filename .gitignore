@@ -1,0 +1,179 @@
+# ==================================================
+# PYTHON
+# ==================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+*.so
+
+# Python build and packaging
+build/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Python environments
+venv/
+.venv/
+env/
+.env-venv/
+ENV/
+virtualenv/
+
+# Python package and tool caches
+.pytest_cache/
+.mypy_cache/
+.dmypy.json
+.dmypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.hypothesis/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+nosetests.xml
+junit.xml
+
+# Jupyter
+.ipynb_checkpoints/
+
+# ==================================================
+# DJANGO
+# ==================================================
+
+# Local settings (if you use these files)
+local_settings.py
+
+# Database files (SQLite)
+*.sqlite3
+*.sqlite3-journal
+db.sqlite3
+
+# Uploaded media (user uploads)
+media/
+
+# Collected static files
+staticfiles/
+
+# Django logs
+*.log
+
+# ==================================================
+# ENVIRONMENT VARIABLES AND SECRETS
+# ==================================================
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Private keys and certificates
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+
+# ==================================================
+# NODE.JS / REACT / VITE
+# ==================================================
+
+# Dependencies
+node_modules/
+
+# Package manager logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Build output
+frontend/dist/
+dist/
+build/
+
+# Vite
+frontend/.vite/
+.vite/
+
+# TypeScript
+*.tsbuildinfo
+
+# React testing and coverage
+coverage/
+
+# Environment files (Vite)
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ==================================================
+# EDITORS AND IDEs
+# ==================================================
+
+# Visual Studio Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# JetBrains IDEs
+.idea/
+*.iml
+
+# Vim
+*.swp
+*.swo
+*~
+
+# ==================================================
+# OPERATING SYSTEMS
+# ==================================================
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Linux
+*~
+
+# ==================================================
+# TEMPORARY FILES
+# ==================================================
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+*.old
