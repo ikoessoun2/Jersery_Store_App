@@ -43,8 +43,8 @@ INSTALLED_APPS = [
 
 
     # Local apps
-    'apps.catalog.apps.CatalogConfig',
     'apps.home.apps.HomeConfig',
+    'apps.catalog.apps.CatalogConfig',
 
 ]
 

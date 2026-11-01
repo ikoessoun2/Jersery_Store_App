@@ -1,6 +1,16 @@
-1. Create the home app which would route the base url "http://localhost:8000/" to the index.html in the static folder.
-2. Configure the react app to build into the static folder in the backend.
-3. Create the catalog app
+1. Create the catalog app
+required data for the product catalog includes picture of the item, category of the item, available sizes of the item, price of the items, description of the item.
+
+Categories -> products -> ...
+-> model [created]
+-> repository [created]
+-> service [created]
+-> serializers [created]
+-> view [created] 
+-> url [created]
+-> test [created]
+
+2. Create the inventory app
 -> model
 -> repository
 -> service
