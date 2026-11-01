@@ -1,4 +1,4 @@
-from .models import Category
+from .models import Category, Product
 
 
 class CategoryRepository:
@@ -52,7 +52,62 @@ class CategoryRepository:
         return True
 
 
+class ProductRepository:
 
+    @staticmethod
+    def get_all():
+        products = Product.objects.select_related('category').all()
+        products = products.filter(deleted=False)
+        return products
+
+    @staticmethod
+    def get_by_id(product_id):
+        product = Product.objects.filter(id=product_id, deleted=False).first()
+        if not product:
+            return None
+        else:
+            return product
+
+    @staticmethod
+    def get_by_name(name):
+        product = Product.objects.filter(name=name, deleted=False).first()
+        if not product:
+            return None
+        else:
+            return product 
+
+    @staticmethod
+    def create(category, name, description):
+        return Product.objects.create(
+            category=category,
+            name=name,
+            description=description
+        )
+
+
+    @staticmethod
+    def update(product, category=None, name=None, description=None):
+
+        if product is None or product.deleted:
+            return None
+
+        if category is not None:
+            product.category = category
+
+        if name is not None:
+            product.name = name
+
+        if description is not None:
+            product.description = description
+
+        product.save()
+
+        return product
+
+    @staticmethod
+    def delete(product):
+        product.deleted = True
+        product.save()
 
 
 

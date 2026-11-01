@@ -1,7 +1,7 @@
 1. Create the catalog app
 required data for the product catalog includes picture of the item, category of the item, available sizes of the item, price of the items, description of the item.
 
-Categories -> products -> ...
+products -> size -> ...
 -> model [created]
 -> repository [created]
 -> service [created]

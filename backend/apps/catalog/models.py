@@ -10,20 +10,21 @@ class Category(models.Model):
     def __str__(self):
         return self.name
     
+class Product(models.Model):
+    category = models.ForeignKey(
+        "catalog.Category",
+        on_delete=models.PROTECT,
+        related_name="products"
+    )
+    name = models.CharField(max_length=200)
+    description = models.TextField()
 
-# class Product(models.Model):
-#     category = models.ForeignKey(
-#         "catalog.Category",
-#         on_delete=models.PROTECT,
-#         related_name="products"
-#     )
-#     name = models.CharField(max_length=200)
-#     description = models.TextField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
+    deleted = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-#     def __str__(self):
-#         return self.name   
+    def __str__(self):
+        return self.name   
 
 
 
