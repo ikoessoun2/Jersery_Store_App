@@ -1,7 +1,7 @@
 from rest_framework.test import APITestCase
 from django.urls import reverse
 from rest_framework import status
-from .models import Category, Product
+from .models import Category, Product, Size
 
 class CategoryManagementTests(APITestCase):
     def setUp(self):
@@ -301,3 +301,123 @@ class ProductManagementTests(APITestCase):
         self.assertTrue(Product.objects.filter(id=self.product.id).exists())
         self.product.refresh_from_db()
         self.assertTrue(self.product.deleted)
+
+
+class SizeManagementTests(APITestCase):
+
+    def setUp(self):
+        self.size = Size.objects.create(name="Large")
+
+        self.size_list_url = reverse('size-list')
+        self.size_detail_url = reverse(
+            'size-detail',
+            kwargs={'pk': self.size.id}
+        )
+
+    # -------------------------
+    # GET TESTS
+    # -------------------------
+
+    def test_get_all_sizes(self):
+        response = self.client.get(self.size_list_url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['name'], "Large")
+
+    def test_get_size_by_id(self):
+        response = self.client.get(self.size_detail_url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['id'], self.size.id)
+        self.assertEqual(response.data['name'], "Large")
+
+    # -------------------------
+    # POST TESTS
+    # -------------------------
+
+    def test_create_size(self):
+        data = {
+            "name": "Medium"
+        }
+
+        response = self.client.post(
+            self.size_list_url,
+            data,
+            format='json'
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data['name'], "Medium")
+        self.assertTrue(
+            Size.objects.filter(name="Medium").exists()
+        )
+
+    def test_create_size_with_duplicate_name(self):
+        data = {
+            "name": "Large"
+        }
+
+        response = self.client.post(
+            self.size_list_url,
+            data,
+            format='json'
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_size_with_empty_name(self):
+        data = {
+            "name": "   "
+        }
+
+        response = self.client.post(
+            self.size_list_url,
+            data,
+            format='json'
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    # -------------------------
+    # PUT TESTS
+    # -------------------------
+
+    def test_update_size(self):
+        data = {
+            "name": "Extra Large"
+        }
+
+        response = self.client.put(
+            self.size_detail_url,
+            data,
+            format='json'
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['name'], "Extra Large")
+
+        self.size.refresh_from_db()
+        self.assertEqual(self.size.name, "Extra Large")
+
+    # -------------------------
+    # PATCH TESTS
+    # -------------------------
+
+    def test_partial_update_size(self):
+        data = {
+            "name": "Small"
+        }
+
+        response = self.client.patch(
+            self.size_detail_url,
+            data,
+            format='json'
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['name'], "Small")
+
+        self.size.refresh_from_db()
+        self.assertEqual(self.size.name, "Small")
+

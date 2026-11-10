@@ -1,0 +1,8 @@
+INTERFACE FOR CATALOG APP
+1. component for adding category
+2. component for listing category(must come with delete to remove category)
+adding size
+listing and removing sizes
+
+3. layout for adding product and removing and listing products
+4. layout for adding product variant deleting variants

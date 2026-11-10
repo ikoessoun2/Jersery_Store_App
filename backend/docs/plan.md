@@ -2,13 +2,13 @@
 required data for the product catalog includes picture of the item, category of the item, available sizes of the item, price of the items, description of the item.
 
 products -> size -> ...
--> model [created]
--> repository [created]
--> service [created]
--> serializers [created]
--> view [created] 
--> url [created]
--> test [created]
+-> model []
+-> repository []
+-> service []
+-> serializers []
+-> view [] 
+-> url []
+-> test []
 
 2. Create the inventory app
 -> model
@@ -16,3 +16,4 @@ products -> size -> ...
 -> service
 -> view
 -> url
+

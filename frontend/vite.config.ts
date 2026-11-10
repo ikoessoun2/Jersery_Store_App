@@ -9,6 +9,11 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, './src'),
+    },
+  },
   base: '/static/dist/',
   build: {
     outDir: resolve(__dirname, '../backend/static/dist'),
