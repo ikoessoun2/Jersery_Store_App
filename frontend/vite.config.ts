@@ -1,23 +1,31 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import { resolve } from 'path'
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   plugins: [
-    react(),
     tailwindcss(),
+    tanstackRouter({
+      target: "react",
+      autoCodeSplitting: true,
+    }),
+    react(),
   ],
+
   resolve: {
+    dedupe: ["react", "react-dom"],
     alias: {
-      '@': resolve(__dirname, './src'),
+      "@": resolve(__dirname, "./src"),
     },
   },
-  base: '/static/dist/',
+
+  base: command === "serve" ? "/" : "/static/dist/",
+
   build: {
-    outDir: resolve(__dirname, '../backend/static/dist'),
+    outDir: resolve(__dirname, "../backend/static/dist"),
     emptyOutDir: true,
   },
-
-})
+}));

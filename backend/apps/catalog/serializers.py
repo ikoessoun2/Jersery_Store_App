@@ -49,3 +49,15 @@ class ProductVariantSerializer(serializers.ModelSerializer):
             "alt_text",
         ]
         read_only_fields = ["id"]
+
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImage
+        fields = [
+            "id",
+            "product",
+            "image",
+            "is_primary",
+            "alt_text",
+        ]
+        read_only_fields = ["id"]

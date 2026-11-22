@@ -1,0 +1,39 @@
+site_name: RASHID JERSEY STORE BACKEND DOCUMENTATION
+
+nav:
+  - Home : index.md
+  - Getting Started: 
+    - About: Getting Started/about.md
+
+  - Architecture: 
+    - File/ Folder Structures: Architecture/file_structure.md
+    - Project Scope: Architecture/scope.md
+    
+
+  - Project Management: 
+    - Installation Guide: Project Management/installation.
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - content.code.copy
+    - search.suggest
+    - search.highlight

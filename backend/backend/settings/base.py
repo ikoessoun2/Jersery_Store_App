@@ -40,13 +40,69 @@ INSTALLED_APPS = [
 
     # Third-party apps
     'rest_framework',
+    "rest_framework_simplejwt",
+    "django_filters",
+    "drf_spectacular",
+    "drf_spectacular_sidecar",
 
 
     # Local apps
     'apps.home.apps.HomeConfig',
     'apps.catalog.apps.CatalogConfig',
+    'apps.inventory.apps.InventoryConfig',
 
 ]
+
+REST_FRAMEWORK = {
+    # OpenAPI schema generation
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+
+    # Authentication
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+
+    # Permissions
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+
+    # Pagination
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 20,
+
+    # Filtering
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.SearchFilter",
+        "rest_framework.filters.OrderingFilter",
+    ],
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Jersey Store API",
+    "DESCRIPTION": """
+    API documentation for the Jersey Store application.
+
+    This API provides endpoints for product catalogues,
+    inventory management, customer accounts, and orders.
+    """,
+    "VERSION": "1.0.0",
+
+    # OpenAPI specification
+    "OAS_VERSION": "3.0.3",
+
+    # Documentation interfaces
+    "SERVE_INCLUDE_SCHEMA": False,
+
+    # Authentication
+    "COMPONENT_SPLIT_REQUEST": True,
+
+    # Schema generation
+    "SORT_OPERATIONS": True,
+}
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

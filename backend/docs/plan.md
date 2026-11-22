@@ -17,3 +17,7 @@ products -> size -> ...
 -> view
 -> url
 
+1. I want to make the documentation in mkdocs so that I can publish the documentation separately.
+2. I want to be able to make the documentation pdf.
+3. I want to document up to where I have currently reached.
+python -m pip freeze > requirements.txt

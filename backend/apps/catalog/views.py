@@ -1,28 +1,33 @@
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError, NotFound
+from rest_framework.permissions import AllowAny
+
 
 from .serializers import CategorySerializer, ProductSerializer, SizeSerializer, ProductVariantSerializer, ProductImageSerializer
 from .services import CategoryService, ProductService, SizeService, ProductVariantService, ProductImageService
 from .exceptions import ResourceNotFoundException
 
 class CategoryViewSet(viewsets.ViewSet):
+    lookup_value_regex = r"\d+"
+    serializer_class = CategorySerializer
+    permission_classes = [AllowAny]
 
     def list(self, request):
         categories = CategoryService.get_all_categories()
-        serializer = CategorySerializer(categories, many=True)
+        serializer = self.serializer_class(categories, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def retrieve(self, request, pk=None):
         category = CategoryService.get_category_by_id(pk)
-        serializer = CategorySerializer(category)
+        serializer = self.serializer_class(category)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request):
         try:
-            serializer = CategorySerializer(data=request.data)
+            serializer = self.serializer_class(data=request.data)
             serializer.is_valid(raise_exception=True)
 
             category = CategoryService.create_category(
@@ -30,7 +35,7 @@ class CategoryViewSet(viewsets.ViewSet):
                 description=serializer.validated_data.get('description', '')
             )
 
-            response_serializer = CategorySerializer(category)
+            response_serializer = self.serializer_class(category)
 
             return Response(
                 response_serializer.data,
@@ -43,7 +48,7 @@ class CategoryViewSet(viewsets.ViewSet):
             )
 
     def update(self, request, pk=None):
-        serializer = CategorySerializer(data=request.data)
+        serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         category = CategoryService.update_category(
@@ -52,7 +57,7 @@ class CategoryViewSet(viewsets.ViewSet):
             description=serializer.validated_data.get('description', '')
         )
 
-        response_serializer = CategorySerializer(category)
+        response_serializer = self.serializer_class(category)
 
         return Response(
             response_serializer.data,
@@ -60,7 +65,7 @@ class CategoryViewSet(viewsets.ViewSet):
         )
 
     def partial_update(self, request, pk=None):
-        serializer = CategorySerializer(data=request.data, partial=True)
+        serializer = self.serializer_class(data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
 
         category = CategoryService.update_category(
@@ -69,7 +74,7 @@ class CategoryViewSet(viewsets.ViewSet):
             description=serializer.validated_data.get('description', None)
         )
 
-        response_serializer = CategorySerializer(category)
+        response_serializer = self.serializer_class(category)
 
         return Response(
             response_serializer.data,
@@ -83,15 +88,19 @@ class CategoryViewSet(viewsets.ViewSet):
 
 
 class ProductViewSet(viewsets.ViewSet):
+    lookup_value_regex = r"\d+"
+    serializer_class = ProductSerializer
+    permission_classes = [AllowAny]
+
     def list(self, request):
         products = ProductService.get_all_products()
-        serializer = ProductSerializer(products, many=True)
+        serializer = self.serializer_class(products, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def retrieve(self, request, pk=None):
         product = ProductService.get_product_by_id(pk)
-        serializer = ProductSerializer(product)
+        serializer = self.serializer_class(product)
         if product is None:
             return Response(
                 {"detail": "Product not found."},
@@ -103,7 +112,7 @@ class ProductViewSet(viewsets.ViewSet):
 
     def create(self, request):
         try:
-            serializer = ProductSerializer(data=request.data)
+            serializer = self.serializer_class(data=request.data)
             serializer.is_valid(raise_exception=True)
 
             product = ProductService.create_product(
@@ -112,7 +121,7 @@ class ProductViewSet(viewsets.ViewSet):
                 description=serializer.validated_data.get('description', '')
             )
 
-            response_serializer = ProductSerializer(product)
+            response_serializer = self.serializer_class(product)
 
             return Response(
                 response_serializer.data,
@@ -127,7 +136,7 @@ class ProductViewSet(viewsets.ViewSet):
 
     def partial_update(self, request, pk=None):
         try:
-            serializer = ProductSerializer(
+            serializer = self.serializer_class(
                 data=request.data,
                 partial=True
             )
@@ -142,7 +151,7 @@ class ProductViewSet(viewsets.ViewSet):
                 description=validated_data.get('description')
             )
 
-            response_serializer = ProductSerializer(product)
+            response_serializer = self.serializer_class(product)
 
             return Response(
                 response_serializer.data,
@@ -163,21 +172,24 @@ class ProductViewSet(viewsets.ViewSet):
 
 
 class SizeViewSet(viewsets.ViewSet):
+    lookup_value_regex = r"\d+"
+    serializer_class = SizeSerializer
+    permission_classes = [AllowAny]
 
     def list(self, request):
         sizes = SizeService.get_all_sizes()
-        serializer = SizeSerializer(sizes, many=True)
+        serializer = self.serializer_class(sizes, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def retrieve(self, request, pk=None):
         size = SizeService.get_size_by_id(pk)
-        serializer = SizeSerializer(size)
+        serializer = self.serializer_class(size)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-        serializer = SizeSerializer(data=request.data)
+        serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         size = SizeService.create_size(
@@ -185,14 +197,14 @@ class SizeViewSet(viewsets.ViewSet):
         )
 
         return Response(
-            SizeSerializer(size).data,
+            self.serializer_class(size).data,
             status=status.HTTP_201_CREATED
         )
 
     def update(self, request, pk=None):
         existing_size = SizeService.get_size_by_id(pk)
 
-        serializer = SizeSerializer(
+        serializer = self.serializer_class(
             existing_size,
             data=request.data
         )
@@ -204,14 +216,14 @@ class SizeViewSet(viewsets.ViewSet):
         )
 
         return Response(
-            SizeSerializer(size).data,
+            self.serializer_class(size).data,
             status=status.HTTP_200_OK
         )
 
     def partial_update(self, request, pk=None):
         existing_size = SizeService.get_size_by_id(pk)
 
-        serializer = SizeSerializer(
+        serializer = self.serializer_class(
             existing_size,
             data=request.data,
             partial=True
@@ -226,7 +238,7 @@ class SizeViewSet(viewsets.ViewSet):
         )
 
         return Response(
-            SizeSerializer(size).data,
+            self.serializer_class(size).data,
             status=status.HTTP_200_OK
         )
 
@@ -239,10 +251,10 @@ class SizeViewSet(viewsets.ViewSet):
 
 
 class ProductVariantViewSet(viewsets.ModelViewSet):
-
+    lookup_value_regex = r"\d+"
     queryset = ProductVariantService.get_all_product_variants()
-
     serializer_class = ProductVariantSerializer
+    permission_classes = [AllowAny]
 
     def list(self, request):
         variants = ProductVariantService.get_all_product_variants()
@@ -348,9 +360,10 @@ class ProductVariantViewSet(viewsets.ModelViewSet):
 
 
 class ProductImageViewSet(viewsets.ModelViewSet):
-
+    lookup_value_regex = r"\d+"
     serializer_class = ProductImageSerializer
     queryset = ProductImageService.get_all_images()
+    permission_classes = [AllowAny]
 
     def list(self, request, *args, **kwargs):
         images = self.queryset
