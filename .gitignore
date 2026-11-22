@@ -10,6 +10,7 @@ __pycache__/
 # Python build and packaging
 build/
 dist/
+docs/
 downloads/
 eggs/
 .eggs/
@@ -177,3 +178,4 @@ $RECYCLE.BIN/
 *.orig
 *.rej
 *.old
+PROJECT_STRUCTURE.md
